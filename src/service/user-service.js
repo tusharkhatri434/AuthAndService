@@ -2,6 +2,7 @@ const {UserRepository} = require('../repository/index');
 
 const { JWT_KEY } = require('../config/serverConfig');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 class UserService {
     constructor(){
@@ -37,6 +38,15 @@ class UserService {
             throw error;
         }
     }
+
+   checkPassword(userInputPlainPassword,encryptedPassword){
+    try {
+        return bcrypt.compareSync(userInputPlainPassword,encryptedPassword);
+    } catch (error) {
+        console.log("something went wrong in password verification");
+        throw error;
+    }
+   }
 }
 
 module.exports = UserService;
